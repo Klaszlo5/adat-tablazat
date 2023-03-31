@@ -1,9 +1,16 @@
-.elso
-{
-    margin:50px auto;
-    width:80%;
+
+main{
+    background-color: beige;
+    padding: 200px;
+    margin: 200px;
 }
-#tablazat
-{
-    width:100%;
+
+h1{
+    color: gray;
 }
+#tablazat th{
+    background-color: whitesmoke;
+}
+table, th, td {
+    border: 1px dotted black;
+  }
