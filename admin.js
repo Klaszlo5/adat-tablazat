@@ -63,7 +63,6 @@ $(function () {
 })
 function tablacsinal(tableData) {
   var tabla = document.createElement('table');
-
 }
 
 tablacsinal([[ADATLISTA]]);

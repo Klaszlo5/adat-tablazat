@@ -13,4 +13,8 @@ h1{
 }
 table, th, td {
     border: 1px dotted black;
-  }
+}
+img{
+    width: 20%;
+    height: 20%;
+}
