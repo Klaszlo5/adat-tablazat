@@ -1,17 +1,36 @@
 import { ADATLISTA } from "./kutyadat.js";
+var fajl = 'kutyadat.js';
 
-$(function () {
-  
+function kutyafilter(e) {
+  const kutyusl = document.querySelectorAll(".list div");
+  let filter = e.target.dataset.filter;
+  if (filter === '*') {
+    kutyusl.forEach(kutyusl => kutyusl.classList.remove('hidden'));
+  }  else {
+    kutyusl.forEach(kutyusl => {
+      kutyusl.classList.contains(filter) ? 
+      kutyusl.classList.remove('hidden') : 
+      kutyusl.classList.add('hidden');
+    });
+  };
+};
+
+$(function (adat) {
   let tb = $(".tartalom");
   tb.html(tablakiir(ADATLISTA));
+  tb.html(kutyafilter(ADATLISTA));
+
+
 });
 
 function tablakiir(lista) {
-  let html = `<table id="tablazat">
-    <thead>
-      <th>  sssssssssssssssssNév    </th>
+  let html = `<table id="tablazat" class="table table-striped">
+    <thead><tr>
+      <th>  Név    </th>
       <th title="th">Szinei</th>
-      <th>sssssssKutyusoksz</th>
+      <th>Kutyusoksz</th>
+      <th>Kutyakép</th>
+      </tr>
     </thead>`;
   for (let i = 0; i < lista.length; i++) {
     html +=
@@ -38,7 +57,6 @@ function tabl() {
     order: [[0, "asc"]]
   });
 }
-
 
 function listakeveres(lista) {
   let keverlistaall = [];

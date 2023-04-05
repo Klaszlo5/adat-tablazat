@@ -1,20 +1,35 @@
-
+/* 
 main{
     background-color: beige;
     padding: 200px;
-    margin: 200px;
+    margin: 200px;A
 }
 
 h1{
-    color: gray;
+    color: gray;A
 }
 #tablazat th{
     background-color: whitesmoke;
 }
-table, th, td {
-    border: 1px dotted black;
+table{
+    width: 100%;
+    border: 1px solid;
 }
-img{
+
+button[data-filter="stilusu1"]:focus ~ div:not([class*="stilusu1"]) {
+    display:none;
+}
+  
+button[data-filter="stilus2"]:focus ~ div:not([class*="stilus2"]) {
+    display:none;
+}
+
+button[data-filter="stilus3"]:focus ~ div:not([class*="stilus3"]) {
+display:none;
+}
+
+ */
+ img{
     width: 20%;
     height: 20%;
 }
