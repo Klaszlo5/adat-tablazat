@@ -1,13 +1,9 @@
-/* 
-main{
+ main{
     background-color: beige;
     padding: 200px;
-    margin: 200px;A
+    margin: 200px;
 }
 
-h1{
-    color: gray;A
-}
 #tablazat th{
     background-color: whitesmoke;
 }
@@ -28,7 +24,7 @@ button[data-filter="stilus3"]:focus ~ div:not([class*="stilus3"]) {
 display:none;
 }
 
- */
+ 
  img{
     width: 20%;
     height: 20%;

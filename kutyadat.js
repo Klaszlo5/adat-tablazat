@@ -1,26 +1,26 @@
 export	const ADATLISTA = [
     {
-        név:"Dézi",
+        nev:"Dézi",
         fajta:"keverék",
-        év:"12",
+        kor:2.5,
         kép:"kutya/kutya.png"
     },
     {
-        név:"lajos",
+        nev:"lajos",
         fajta:"keverék",
-        év:"12",
+        kor:1,
         kép:"kutya/kutya2.png"
     },
     {
-        név:"szuli",
+        nev:"szuli",
         fajta:"terrier",
-        év:"13",
+        kor:10,
         kép:"kutya/kutya3.png"
     },
     {
-        név:"jnoi",
+        nev:"jnoi",
         fajta:"west",
-        év:"17",
+        kor:17,
         kép:"kutya/kutya4.png"
     }
 ];
