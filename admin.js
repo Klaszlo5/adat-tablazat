@@ -1,230 +1,233 @@
 import { ADATLISTA } from "./kutyadat.js";
 
-$(function (adat) {
-  let tb = $(".tartalom");
-  tb.html(tablakiir(ADATLISTA));
-  torles(ADATLISTA)
+$(function(){
+  // funkciobehivasok..:
+  const tartalom = $('#tartalom');
+  const urlap = $('#urlap');
+  const kutyanev = $('#kutyanev');
+  const kor = $('#kor');
+  const fajta = $('#fajta');
+  const bead = $('#bead');
+  const reset = $('#reset');
+  const filterezes = $('.filter-option');
+  const fejlecek = $('#tablazat th');
 
-  var kattint = 0
-  var NevreRendez = document.getElementById("nev");
-  $(NevreRendez).click(() => {
-      if (kattint == 0){
-          rendezes(0)
-          kattint = 1
-      }else{
-          rendezesvissza(0)
-          kattint = 0
-      }
-  });
-  var FajtaraRendez = document.getElementById("fajta");
-  $(FajtaraRendez).click(() => {
-      if (kattint == 0){
-          rendezes(1)
-          kattint = 1
-      }else{
-          rendezesvissza(1)
-          kattint = 0
-      }
-})
+  function tablakiir(){
+    let lista = ADATLISTA;
+    // kevesebb rendezes, adatszures..
+    lista = szures(lista);
+    lista = rendezes(lista);
 
-var korraRendez = document.getElementById("kor");
-$(korraRendez).click(() => {
-    if (kattint == 0){
-        rendezes(2)
-        kattint = 1
-    }else{
-        rendezesvissza(2)
-        kattint = 0
+    tartalom.html('');
+    for(let index=0; index < lista.length; index++){
+      const object = lista[index];
+      let fel = '<button class="btn btn-outline-secondary" disabled>Fel</button>';
+      if(index > 0){
+        fel = `<button class="btn btn-outline-primary" data-muvelet="fel" data-id="${object.id}">Fel</button>`;
+      }
+
+      let le = '<button class="btn btn-outline-secondary" disabled>Le</button>';
+      if(index < lista.length - 1){
+        le = `<button class="btn btn-outline-primary" data-muvelet="le" data-id="${object.id}">Le</button>`;
+      }
+      tartalom.append(`
+        <tr>
+          <td>${object.nev}</td>
+          <td>${object.fajta}</td>
+          <td>${object.kor}</td>
+          <td>
+            <img src="${object.kép}">
+          </td>
+          <td class="muveletek">
+            <button class="btn btn-outline-primary" data-muvelet="torles" data-id="${object.id}">Törlés</button>
+            ${fel}
+            ${le}
+          </td>
+        </tr>
+      `)
     }
+    if(lista.length === 0){
+      tartalom.append('<tr><td class="text-center" colspan="5">Nincs adat</td>');
+    }
+    // gombok..
+    tartalom.find('button').on('click', function(e){
+    const muvelet = $(this).data('muvelet');
+    const id = Number($(this).data('id'));
+    const iREGI = ADATLISTA.findIndex(function(object){
+      return object.id == id;
+    })
 
-});
+    let iUJ;
+    let csereKell = false;
 
-$(document).ready(function() {
-    $(".torol-btn").click(function() {
-      var row = $(this).closest("tr");
-      row.remove();
+    if(muvelet === 'torles'){
+      ADATLISTA.splice(iREGI, 1);
+    }
+    else if(muvelet === 'fel'){
+      iUJ = iREGI - 1;
+      csereKell = true;
+    }
+    else if(muvelet === 'le'){
+      iUJ = iREGI + 1;
+      csereKell = true;
+    }
+    if(iUJ < 0 || iUJ > ADATLISTA.length){
+      // tömb alul,túlindexelés..
+      return;
+    }
+    if(csereKell){
+      // elem cserélése
+      const object = ADATLISTA[iREGI];
+      ADATLISTA[iREGI] = ADATLISTA[iUJ];
+      ADATLISTA[iUJ] = object;
+    }
+      tablakiir();
     });
+  }
+
+  function szures(lista){
+    const nevErtek = kutyanev.val().trim().toLowerCase();
+    const fajErtek = fajta.val().trim().toLowerCase();
+    const korErtek = kor.val().trim().toLowerCase();
+    const szuroGomb = filterezes.siblings('.btn-primary');
+    let szuroFeltetel = '';
+    if(szuroGomb.length > 0){
+      szuroFeltetel = szuroGomb.data('filter');
+    }
+    // ha a szűrés üres, térjen vissza..
+    if(nevErtek === '' && fajErtek === '' && korErtek === '' && szuroFeltetel === ''){
+      return lista;
+    }
+    const listaUj = [];
+    for(let index=0; index<lista.length; index++){
+      const object = lista[index];
+      const nev = object.nev.toLowerCase();
+      const faj = object.fajta.toLowerCase();
+      const kor = object.kor;
+
+      let megtart = true;
+      // input szűrés.
+      if(nevErtek !== '' && nev.indexOf(nevErtek) === -1){
+        megtart = false;
+      }
+      // lista.kor atalakitasa string-é
+      if(korErtek !== '' && kor !== Number(korErtek)){
+        megtart = false;
+      }
+      if(fajErtek !== '' && faj.indexOf(fajErtek) === -1){
+        megtart = false;
+      }
+      if(szuroFeltetel !== '*'){
+        // könnyebb számolás lesz, ha hónapban van megadva va kor.
+        if(szuroFeltetel === 'stilus' && !(2 <= kor && kor <= 3)){
+          megtart = false;
+        }
+        else if(szuroFeltetel === 'stilus2' && !(kor < 3 * 12)){  // 3 év
+          megtart = false;
+        }
+        else if(szuroFeltetel === 'stilus3' && !(kor >= 3.5 * 12)) { // 3.5 év
+          megtart = false;
+        }
+      }
+      if(megtart){
+        listaUj.push(object);
+      }
+    }
+    return listaUj;
+  }
+
+  function rendezes(lista){
+    const nyil = fejlecek.find('[data-irany]');
+    const irany = nyil.attr('data-irany');
+    if(!irany){
+      // ha nincs rendezés visszatér..
+      return lista;
+    }
+    // az listáról egy változtatott máasolat..
+    const listaUj = lista.slice();
+    const ertek = nyil.attr('data-ertek');
+    if(ertek === 'kutyaneve'){
+      if(irany === 'le'){
+        listaUj.sort(function(a, b){if(a.nev < b.nev){return -1;}if(a.nev > b.nev){return 1;}return 0;});
+      }
+      else {
+        listaUj.sort(function(a, b){if(a.nev < b.nev){return 1;}if(a.nev > b.nev){return -1;}return 0;});
+      }
+    }
+    else if(ertek === 'faj'){
+      if(irany === 'le'){
+        listaUj.sort(function(a, b){if(a.fajta < b.fajta){return -1;}if(a.fajta > b.fajta){return 1;}return 0;});
+      }
+      else {
+        listaUj.sort(function(a, b){if(a.fajta < b.fajta){return 1;}if(a.fajta > b.fajta){return -1;}return 0;});
+      }
+    }
+    else if(ertek === 'kor'){
+      if(irany === 'le'){
+        listaUj.sort(function(a, b){if(a.kor < b.kor){return -1;}if(a.kor > b.kor){return 1;}return 0;});
+      }
+      else {
+        listaUj.sort(function(a, b){if(a.kor < b.kor){return 1;}if(a.kor > b.kor){return -1;}return 0;});
+      }
+    }
+    console.log(listaUj);
+    return listaUj;
+  }
+  $('#kutyanev, #kor, #fajta').on('input keyup', function(){
+    tablakiir();
   });
+  filterezes.on('click', function(){
+    const gomb = $(this);
+    const bekapcsolva = gomb.hasClass('btn-primary');
+    filterezes.removeClass('btn-primary').addClass('btn-outline-primary');
+    if(!bekapcsolva){
+      gomb.addClass('btn-primary').removeClass('btn-outline-primary');
+    }
 
-$(document).ready(function() {
-    $("#nev, #kor, #fajta").keyup(function() {
-      var nevErtek = $("#nev").val().toLowerCase();
-      var fajErtek = $("#fajta").val().toLowerCase();
-      var korErtek = $("#kor").val();
-      $("tbody tr").each(function() {
-        var nev = $(this).find("td:first").text().toLowerCase();
-        var faj = $(this).find("td:nth-child(2)").text().toLowerCase();
-        var kor = $(this).find("td:nth-child(3)").text();
-        if (nev.indexOf(nevErtek) !== -1 && kor.indexOf(korErtek) !== -1 && faj.indexOf(fajErtek) !== -1) {
-          $(this).show();
-        } else {
-          $(this).hide();
-        }
-      });
-    });
+    tablakiir();
   });
-});
+  fejlecek.on('click', function(){
+    const fejlec = $(this);
+    const irany = fejlec.find('.bi');
+    const iranyRegi = irany.attr('data-irany');
+    fejlecek.find('.bi')
+    .removeClass('bi-arrow-down-square-fill bi-arrow-up-square-fill')
+    .removeAttr('data-irany');
 
-//funkciok- javitanikell
-function torles(lista){
-  for (let index = 0; index < lista.length; index++) {
-    let TOROLELEM = $(`#t-${index}`)
-    
-    console.log(TOROLELEM)
-    $(TOROLELEM).on("click", function(){
-      let toroltElem = event.target.id
-      toroltElem = toroltElem.slice(2)
-      $(`#sor-${index}`).remove()
-      console.log(toroltElem)
+    if(!iranyRegi){
+      irany.addClass('bi-arrow-down-square-fill').attr('data-irany', 'le');
+    }
+    else if(iranyRegi === 'le'){
+      irany.addClass('bi-arrow-up-square-fill').attr('data-irany', 'fel');
+    }
+    else {
+      irany.removeAttr('data-irany');
+    }
+
+    tablakiir();
+  })
+  urlap.on('submit', function(e){
+    e.preventDefault();
+  });
+  bead.on('click', function(){
+    const ujId = ADATLISTA[ADATLISTA.length - 1].id + 1;
+
+    ADATLISTA.push({
+      id: ujId,
+      nev: kutyanev.val(),
+      fajta: fajta.val(),
+      kor: Number(kor.val()),
+      kép: `kutya/${fajta.val()}.png`
     });
-  }
-}
-
-function rendezes(szam) {
-  var table, rows, switching, i, x, y, shouldSwitch;
-  table = document.getElementById("MyTable");
-  switching = true;
-
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("td")[szam];
-      y = rows[i + 1].getElementsByTagName("td")[szam];
-      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-        shouldSwitch = true;
-        break;
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-    }
-  }
-}
-function rendezesvissza(szam) {
-  var table, rows, switching, i, x, y, shouldSwitch;
-  table = document.getElementById("MyTable");
-  switching = true;
-
-  while (switching) {
-
-    switching = false;
-    rows = table.rows;
-
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("td")[szam];
-      y = rows[i + 1].getElementsByTagName("td")[szam];
-      if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-        shouldSwitch = true;
-        break;
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-    }
-  }
-}
-
-function elozo(n)
-{
-    x=n.previousSibling;
-    while (x.nodeType!=1)
-      {
-      x=x.previousSibling;
-      }
-    return x;
-} 
-
-function kovi(n)
-{
-    x=n.nextSibling;
-    while ( x != null && x.nodeType!=1)
-      {
-      x=x.nextSibling;
-      }
-    return x;
-} 
-function sorfelgomb()
-{
-    var table,
-        row = this.parentNode;
-    
-    while ( row != null ) {
-        if ( row.nodeName == 'TR' ) {
-            break;
-        }
-        row = row.parentNode;
-    }
-    table = row.parentNode;
-    table.insertBefore ( row, get_previoussibling( row ) );
-}
-
-function sorlegomb()
-{
-    var table,
-        row = this.parentNode;
-    
-    while ( row != null ) {
-        if ( row.nodeName == 'TR' ) {
-            break;
-        }
-        row = row.parentNode;
-    }
-    table = row.parentNode;
-    table.insertBefore ( row, get_nextsibling ( get_nextsibling( row ) ) );
-}
-
-function tablakiir(lista) {
-  let html = `<table id="tablazat" class="table table-striped">
-  <thead><tr>
-    <th>  Kutya neve    </th>
-    <th title="th">Kutya fajtája</th>
-    <th>Kutyus kora</th>
-    <th>Kutyus kép</th>
-    </tr>
-  </thead>`;
-  html += '<tbody id="elem">'
-  for (let index = 0; index < lista.length; index++) {
-    html += `<tr id='sor-${index}'>`
-    const lisobj = lista[index];
-    for (const kulcs in lisobj){
-      const elem = lisobj[kulcs]
-      if(kulcs == ADATLISTA.nev){
-        html += `<th>${elem}</th>`
-      } else {
-        html += `<td>${elem}</td>`
-      }
-    }
-    html += "<td>  <img src='"+ADATLISTA[index].kép+"' />  <button class = 'btn-torol' id='t-"+index+"'> Törlés </button><button class = 'btn-torol' id='t-"+index+"' onClick="+MoveUp.call(this)+"> Feljebb </button></td>";
-    html += `</tr>`    
-  }
-  html += '</tbody>'
-  html += '</table>'
-  html += '</div>'
-  let sorok = $('article')
-  return sorok.append(html);
-}
-
-
-$('#bead').on("click", function(e){
-  e.preventDefault();
-  let kutyanev=document.getElementById("kutyanev").value;
-  let kor=document.getElementById("kor").value;
-  let fajta=document.getElementById("fajta").value;
-  $("#tablazat").find('tbody')
-  .append($('<tr><td>'+kutyanev+'</td><td>'+fajta+'</td><td>'+kor+'</td><td>'+'<img src="kutya/kutya4.png">'+'</td></tr>'))
+    // táblázat ujrairása..
+    tablakiir();
+  });
+  reset.on('click', function(){
+    kutyanev.val('');
+    kor.val('');
+    fajta.val('');
+    tablakiir();
+  });
+  // kezdeti táblázat betöltése....
+  tablakiir();
 });
-
-$(function () {
-  console.log(ADATLISTA)
-})
-function tablacsinal(tableData) {
-  var tabla = document.createElement('table');
-}
-
-tablacsinal([[ADATLISTA]]);

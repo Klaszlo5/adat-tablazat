@@ -1,31 +1,27 @@
- main{
+main {
     background-color: beige;
     padding: 200px;
     margin: 200px;
 }
 
-#tablazat th{
-    background-color: whitesmoke;
+img{
+    width: 20%;
+    height: 20%;
 }
-table{
+
+#tablazat {
     width: 100%;
     border: 1px solid;
 }
 
-button[data-filter="stilusu1"]:focus ~ div:not([class*="stilusu1"]) {
-    display:none;
-}
-  
-button[data-filter="stilus2"]:focus ~ div:not([class*="stilus2"]) {
-    display:none;
+#tablazat th {
+    background-color: whitesmoke;
 }
 
-button[data-filter="stilus3"]:focus ~ div:not([class*="stilus3"]) {
-display:none;
+#tablazat .muveletek {
+    white-space: nowrap;
 }
 
- 
- img{
-    width: 20%;
-    height: 20%;
+.szures-aktiv {
+    border: 2px solid green;
 }
