@@ -4,16 +4,77 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Kádár László</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="index.js" type="module"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet" />
 	<link rel="stylesheet" href="stilus.css">
 <body>
     <main>
-        <h1> Kutyák kutyákkok</h1>
+        <h1> Menhely</h1>
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="admin.html">Admin felület</a></li>
+          </ul>
+
 		<div class="tartalom">
-		<h3>Adattáblázat</h3>
-		
+		<h3>Eladó kutyáink:</h3>
+  <div class="container-fluid">
+    <h1 class="text-center mb-3">Kutyák:</h1>
+    <div id="kutyusok" class="eltol" data-ride="carousel">
+      <div class="belsoszog row w-100 mx-auto">
+        <div class="doboz col-md-4 active">
+          <div class="card">
+            <img class="card-img-top img-fluid" src="kutya/kutya.png" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">Kutyi</h4>
+              <p class="card-text">bébi kutyát kölyöknek vagy kiskutyának hívnak. A kutyát körülbelül egy éves koráig kölyökkutyának hívják. A háziasított kutyákat régóta tenyésztették az emberek, és valószínűleg ők voltak az első háziasított állatok.</p>
+              <p class="card-text"><small class="text-muted">utolsó frissítés: egy hete</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="doboz col-md-4">
+          <div class="card">
+            <img class="card-img-top img-fluid" src="kutya/kutya1.png" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">Kutyi</h4>
+              <p class="card-text">2.bébi kutyát kölyöknek vagy kiskutyának hívnak. A kutyát körülbelül egy éves koráig kölyökkutyának hívják. A háziasított kutyákat régóta tenyésztették az emberek, és valószínűleg ők voltak az első háziasított állatok.</p>
+              <p class="card-text"><small class="text-muted">utolsó frissítés: egy perce</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="doboz col-md-4">
+          <div class="card">
+            <img class="card-img-top img-fluid" src="kutya/kutya2.png" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">Kutyi</h4>
+              <p class="card-text">3.bébi kutyát kölyöknek vagy kiskutyának hívnak. A kutyát körülbelül egy éves koráig kölyökkutyának hívják. A háziasított kutyákat régóta tenyésztették az emberek, és valószínűleg ők voltak az első háziasított állatok.</p>
+              <p class="card-text"><small class="text-muted">utolsó frissítés: 2 napja</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="doboz col-md-4">
+          <div class="card">
+            <img class="card-img-top img-fluid" src="kutya/kutya3.png" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">Kutyi</h4>
+              <p class="card-text">4.bébi kutyát kölyöknek vagy kiskutyának hívnak. A kutyát körülbelül egy éves koráig kölyökkutyának hívják. A háziasított kutyákat régóta tenyésztették az emberek, és valószínűleg ők voltak az első háziasított állatok.</p>
+              <p class="card-text"><small class="text-muted">utolsó frissítés: 3 perce</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="elozo" href="#kutyusok" role="button" data-slide="elo">
+        <span>Előző</span>
+      </a>
+      <a class="kovetkezo" href="#kutyusok" role="button" data-slide="kov">
+        <span>Következő</span>
+      </a>
+    </div>
+  </div>
+
+
 	</div>
 
         

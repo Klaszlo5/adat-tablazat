@@ -9,6 +9,21 @@ img{
     height: 20%;
 }
 
+li{
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    text-align: center;
+    color: blue;
+}
+
 #tablazat {
     width: 100%;
     border: 1px solid;
@@ -38,5 +53,55 @@ img{
     #tablazat {
         width: 80%;
         border: 1px solid;
+    }
+    /*kartyak*/
+    .belsoszog .active,
+    .belsoszog .active + .doboz,
+    .carousel-inner .active + .doboz + .doboz {
+        display: block;
+    }
+    .belsoszog .doboz.active:not(.carousel-item-right):not(.carousel-item-left),
+    .belsoszog .doboz.active:not(.carousel-item-right):not(.carousel-item-left) + .doboz,
+    .belsoszog .doboz.active:not(.carousel-item-right):not(.carousel-item-left) + .doboz + .doboz {
+        transition: none;
+    }
+    .belsoszog .kovetkezo,
+    .belsoszog .elozo {
+        position: relative;
+        transform: translate3d(0, 0, 0);
+    }
+    .belsoszog .active.doboz + .doboz + .doboz + .doboz {
+        position: absolute;
+        top: 0;
+        right: -33.3333%;
+        z-index: -1;
+        display: block;
+        visibility: visible;
+    }
+    .active.carousel-item-left + .kovetkezo.carousel-item-left,
+    .kovetkezo.carousel-item-left + .doboz,
+    .kovetkezo.carousel-item-left + .doboz + .doboz,
+    .kovetkezo.carousel-item-left + .doboz + .doboz + .doboz {
+        position: relative;
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+    }
+    .belsoszog .elozo.carousel-item-right {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        display: block;
+        visibility: visible;
+    }
+    .active.carousel-item-right + .elozo.carousel-item-right,
+    .elozo.carousel-item-right + .doboz,
+    .elozo.carousel-item-right + .doboz + .doboz,
+    .elozo.carousel-item-right + .doboz + .doboz + .doboz {
+        position: relative;
+        transform: translate3d(100%, 0, 0);
+        visibility: visible;
+        display: block;
+        visibility: visible;
     }
 }

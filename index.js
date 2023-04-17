@@ -1,13 +1,31 @@
-import { ADATLISTA } from "./adat.js";
+import { ADATLISTA } from "./kutya.js";
 
-$(function () {
-  
-  let tb = $(".tartalom");
-  tb.html(tablakiir(ADATLISTA));
+/*kartyak*/
+$(document).ready(function() {
+  $("#kutyusok").on("slide.bs.carousel", function(e) {
+    var $f = $(f.relatedTarget);
+    var szkm = $f.index();
+    var elemegyhosszban = 3;
+    var osszeselem = $(".doboz").length;
+
+    if (szkm >= osszeselem - (elemegyhosszban - 1)) {
+      var sz = elemegyhosszban - (osszeselem - szkm);
+      for (var i = 0; i < sz; i++) {
+        if (e.direction == "left") {
+          $(".doboz")
+            .eq(i)
+            .appendTo(".carousel-inner");
+        } else {
+          $(".doboz")
+            .eq(0)
+            .appendTo($(this).find(".carousel-inner"));
+        }
+      }
+    }
+  });
 });
 
-
-
+/*
 function tablakiir(lista) {
   let html = `<table id="tablazat">
     <thead>
@@ -76,3 +94,4 @@ export function szuresfajta(kulcs, szures) {
   });
   return SZURTLISTA
 }
+*/
