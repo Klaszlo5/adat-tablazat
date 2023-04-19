@@ -1,54 +1,35 @@
-import { ADATLISTA } from "./kutya.js";
+import { ADATLISTA } from "./kutyadat.js";
 
-/*kartyak*/
-$(document).ready(function() {
-  $("#kutyusok").on("slide.bs.carousel", function(e) {
-    var $f = $(f.relatedTarget);
-    var szkm = $f.index();
-    var elemegyhosszban = 3;
-    var osszeselem = $(".doboz").length;
-
-    if (szkm >= osszeselem - (elemegyhosszban - 1)) {
-      var sz = elemegyhosszban - (osszeselem - szkm);
-      for (var i = 0; i < sz; i++) {
-        if (e.direction == "left") {
-          $(".doboz")
-            .eq(i)
-            .appendTo(".carousel-inner");
-        } else {
-          $(".doboz")
-            .eq(0)
-            .appendTo($(this).find(".carousel-inner"));
-        }
-      }
-    }
-  });
+$(function () {
+  let tb = $(".tartalom");
+  tb.html(tablakiir(ADATLISTA));
+  tb.html(kivalaszt(ADATLISTA));
+  tb.html(renderTheCards[[ADATLISTA]])
 });
 
-/*
+
 function tablakiir(lista) {
-  let html = `<table id="tablazat">
-    <thead>
-      <th>  sssssssssssssssssNév    </th>
-      <th title="th">Szinei</th>
-      <th>sssssssKutyusoksz</th>
-    </thead>`;
+  let html = `<div class="card" style="width: 18rem;">`;
   for (let i = 0; i < lista.length; i++) {
     html +=
-      "<tr><td>" +
-      lista[i].név +
-      "</td><td>" +
-      lista[i].fajta +
-      '</td><td>' +
-      lista[i].év +
-      '</td></tr>';
+      /*'<a href='+lista[i].kép+' target="_blank">Nagynézet*/'<img src='+lista[i].kép+'></img>' +
+      "<div class=`card-body`>" +
+      lista[i].nev +
+      "<h5 class=`card-title`>" + lista[i].id + ". számú kutyusunk</h5>" +
+      lista[i].szoveg +
+      ' <p class="card-text">Kutyusunk: ' +
+      lista[i].kor + '  hónapos </p>' +
+      '<input type="button" class="button" id="kartya" value="Kosárba!">';
   }
-  html += `</table>`;
+  html += `</div>`;
   return html
 }
 
-function rendezes1(nev) {
-  nev.sort();
+function kutyus() {
+  $("#kutyusvalaszt").DataTable({
+    
+  
+  });
 }
 
 function tabl() {
@@ -57,35 +38,23 @@ function tabl() {
   });
 }
 
-
-function listakeveres(lista) {
-  let keverlistaall = [];
-  let szamok;
-  while (keverlistaall.length < lista.length) {
-    szamok = Math.floor(Math.random() * lista.length);
-    let index = 0;
-    while (
-      index < keverlistaall.length &&
-      !(szamok == keverlistaall[index])
-    ) {
-      index++;
-    }
-    if (index >= keverlistaall.length) {
-      keverlistaall.push(szamok);
-    }
-  }
-}
-
 $(function () {
   console.log(ADATLISTA)
+  
 })
-function tablacsinal(tableData) {
-  var tabla = document.createElement('table');
 
+function kartyacsinal(tableData) {
+  var tabla = document.createElement('table');
 }
 
-tablacsinal([[ADATLISTA]]);
+kartyacsinal([[ADATLISTA]]);
 
+
+
+
+
+
+/*
 export function szuresfajta(kulcs, szures) {
   const SZURTLISTA = ADATLISTA.filter(function () {
     szures = 0;
@@ -94,4 +63,5 @@ export function szuresfajta(kulcs, szures) {
   });
   return SZURTLISTA
 }
+
 */
